@@ -1,4 +1,4 @@
-from watson_developer_cloud import VisualRecognitionV3
+from watson_developer_cloud import VisualRecognitionV3,DocumentConversionV1
 
 #Watson Api's info:
 #url": "https://gateway-a.watsonplatform.net/visual-recognition/api",
@@ -84,3 +84,25 @@ class WatsonVisualRecognition:
                                                             images_url=None)
         return response
 
+class WatsonDocumentConversion:
+    username = '83079411-9348-4920-9b27-10cb54f72dc7'
+    password = 'RKFy45gV1E4m'
+    version = '2015-12-15'
+    document_conversion = DocumentConversionV1(username=username,
+                                               password=password,
+                                               version=version)
+
+    def document_convert(self,document_url):
+        with open(document_url,encoding='utf8') as document:
+            #config = {'conversion_target': DocumentConversionV1().NORMALIZED_TEXT}
+            #response = DocumentConversionV1().convert_document(document=document,
+            #                                                 config=config,
+            #                                                 media_type='text/html')
+            config = {'conversion_target': self.document_conversion.NORMALIZED_TEXT}
+            response = self.document_conversion.convert_document(document=document,
+                                                                 config=config,
+                                                                 media_type='text/html').content
+            print("##################")
+            print(response)
+
+        return response

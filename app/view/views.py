@@ -4,8 +4,7 @@ from werkzeug.utils import secure_filename
 from flask import request,send_from_directory,url_for,render_template
 import os,json
 from  app.controller.forms import loginForm
-from app.controller.WatsonDevCloud import WatsonVisualRecognition
-from app.controller.documentconversion import WatsonDocumentConversion
+from app.controller.WatsonDevCloud import WatsonVisualRecognition,WatsonDocumentConversion
 from app.controller.doMongoDB import add_file,find_file
 
 #设定配置
@@ -170,4 +169,4 @@ def doFileConvert():
         document_url = os.path.join(app.config['UPLOAD_FOLDER'], filename)
         response = WatsonDocumentConversion().document_convert(document_url=document_url)
         print(response)
-    return
+    return response
