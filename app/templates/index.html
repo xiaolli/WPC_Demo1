@@ -1,0 +1,16 @@
+{% extends 'base2.html' %}
+{% block content %}
+    <h2>{{ word }}</h2>
+    <form method="POST" action="/main">
+        <div>
+            Username:  {{ form.login_name(size=20) }}
+        </div>
+        <div>
+            Password: &nbsp;{{ form.login_password(size=20) }}
+        </div>
+        <div>
+            <input type="submit" value="Go">
+        </div>
+    </form>
+    {{ word_end }}
+{% endblock %}

@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% block content %}
+    <div id = "selectFile">
+        <form id="creatCollection" class="wrapper" action="/addImage"
+        method="POST" enctype="multipart/form-data">
+        <div class= "form-item">
+            <div class="form-item-attribute">
+                <label>Image File:</label>
+            </div>
+            <div class="form-item-value">
+                <input type="file" name="imagefile" id="fileupload_input" />
+            </div>
+            <div class="form-item-value">
+                <lable>(Maximum File size is 2MB)</lable>
+            </div>
+            <div>
+                <label>Employee Name</label>
+            </div>
+            <div>
+                <input type="text" name="emp_name">
+            </div>
+            <div>
+                <label>Employee SN</label>
+            </div>
+            <div>
+                <input type="text" name="emp_SN">
+            </div>
+            <input type=submit value=upload>
+        </div>
+        </form>
+        <!--button id="upload">upload</button-->
+    </div>
+{% endblock %}

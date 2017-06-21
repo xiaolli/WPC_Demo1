@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% block content %}
+<div id = "selectFile">
+        <form id="creatCollection" class="wrapper" action="/findsimilar"
+        method="POST" enctype="multipart/form-data">
+        <div class= "form-item">
+            <div hidden>
+                <input name="emp_name" type="text" value="{{ emp_name }}">
+            </div>
+            <div class="form-item-attribute">
+                <label>Select File:</label>
+            </div>
+            <div class="form-item-value">
+                <input type="file" name="imagefile" id="find_image" />
+            </div>
+            <div class="form-item-value">
+                <lable>(Maximum File size is 2MB)</lable>
+            </div>
+
+            <input type=submit value=Query>
+        </div>
+        </form>
+</div>
+{% endblock %}
