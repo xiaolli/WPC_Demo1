@@ -1,7 +1,7 @@
 from app import app
 import config
 from werkzeug.utils import secure_filename
-from flask import request,send_from_directory,url_for,render_template,session,escape
+from flask import request,send_from_directory,url_for,render_template,session
 import os,json
 from  app.controller.forms import loginForm
 from app.controller.WatsonDevCloud import WatsonVisualRecognition,WatsonDocumentConversion
@@ -12,8 +12,6 @@ app.config['UPLOAD_FOLDER'] = config.UPLOAD_FOLDER
 app.config['DOWNLOAD_FOLDER'] = config.DOWNLOAD_FOLDER
 app.config['MAX_CONTENT_LENGTH'] = config.MAX_CONTENT_LENGTH
 
-app.secret_key = 'A0Zr98j/3yX R~XHH!jmN]LWX/,?RT'
-
 #初始Url定向时，调用FlaskForm模版渲染
 @app.route('/')
 @app.route('/index')
@@ -21,61 +19,47 @@ app.secret_key = 'A0Zr98j/3yX R~XHH!jmN]LWX/,?RT'
 def index():
     #禁用CSRF
     form = loginForm(csrf_enabled=False)
-    login_username = form.login_name.data
-    if login_username in session:
-        response_word = 'Logged in as %s' %escape(login_username)
-        response_html = 'index.html'
-        response_title = 'index'
-        return render_template(response_html,
-                               title=response_title,
-                               word=response_word)
-    else:
-        response_word =  'Hello Guest!  Please login first!'
-        response_html = 'index.html'
-        response_title = 'index'
-        return render_template(response_html,
-                               title=response_title,
-                               form = form,
-                               word=response_word)
+    response_word =  'Hello Guest!  Please login first!'
+    response_html = 'index.html'
+    response_title = 'index'
+    return render_template(response_html,
+                           title=response_title,
+                           form = form,
+                           word=response_word)
 
 
 @app.route('/main',methods=['GET','POST'])
 def login():
-    if request.method == 'POST':
-        form = loginForm(csrf_enabled=False)
-        login_username = form.login_name.data
-        login_password = form.login_password.data
-        login_object = {'login_name':login_username,'login_password':login_password}
+    form = loginForm(csrf_enabled=False)
+    login_username = form.login_name.data
+    login_password = form.login_password.data
+    login_object = {'login_name':login_username,'login_password':login_password}
 
-        session['login_name'] = form.login_name.data
+    for num in range(0,len(config.app_login_cer)):
+        if login_object == config.app_login_cer[num]:
+            print(login_username + "is OK")
+            response_logon = 'OK'
+            break
+    else:
+        #print(login_username + "is NG")
+        response_logon = 'NG'
 
-        print("session:"+session['login_name'] )
-
-        for num in range(0,len(config.app_login_cer)):
-            if login_object == config.app_login_cer[num]:
-                print(login_username + "is OK")
-                response_logon = 'OK'
-                break
-        else:
-            #print(login_username + "is NG")
-            response_logon = 'NG'
-
-        if response_logon == 'OK':
-            response_title = 'main'
-            response_html = 'main.html'
-            response_emp_name = session['login_name']
-            return render_template(response_html,
-                                   title=response_title,
-                                   emp_name=response_emp_name)
-        else:
-            response_html = 'index.html'
-            response_title = 'index'
-            response_form = form
-            response_word_end = 'Confirm your input login_name or login_password!!'
-            return render_template(response_html,
-                                   title=response_title,
-                                   form=response_form,
-                                   word_end=response_word_end)
+    if response_logon == 'OK':
+        response_title = 'main'
+        response_html = 'main.html'
+        response_emp_name = login_username
+        return render_template(response_html,
+                               title=response_title,
+                               emp_name=response_emp_name)
+    else:
+        response_html = 'index.html'
+        response_title = 'index'
+        response_form = form
+        response_word_end = 'Confirm your input login_name or login_passwrod!!'
+        return render_template(response_html,
+                               title=response_title,
+                               form=response_form,
+                               word_end=response_word_end)
 
 #检查上传文件合法性
 def allowed_file(filename):
@@ -88,23 +72,20 @@ def uploaded_file(filename):
     return send_from_directory(app.config['DOWNLOAD_FOLDER'],filename)
 
 #@app.route('/main/find',methods=['GET','POST'])
-@app.route('/findsimilar')
+@app.route('/main/find',methods=['GET'])
 def similar_index():
-    #if request.method == 'GET':
-    #response_emp_name=request.args.get('emp_name')
-    response_emp_name = session['login_name']
-    #print(response_emp_name)
-    response_html = 'findsimilar.html'
-    response_title = 'findsimilar'
-    return render_template(response_html,
-                           title=response_title,
-                           emp_name=response_emp_name)
+    if request.method == 'GET':
+        response_emp_name=request.args.get('emp_name')
 
-@app.route('/findsimilarlist',methods=['GET','POST'])
+        #print(response_emp_name)
+        return render_template('findsimilar.html',
+                               emp_name=response_emp_name)
+
+@app.route('/findsimilar',methods=['GET','POST'])
 def findSimilar_list():
     #response_emp_name = similar_index().response_emp_name
     if request.method == 'POST':
-        response_emp_name = session['login_name']
+        response_emp_name = request.form['emp_name']
         print(response_emp_name)
         file = request.files['imagefile']
 
@@ -131,10 +112,8 @@ def findSimilar_list():
             with open(down_filename,'wb') as downimage:
                 downimage.write(img["user_IMG"])
             file_url = url_for('uploaded_file', filename=filename)
-            response_html = 'findSimilar.html'
-            response_title = 'findSimilar'
-            return render_template(response_html,
-                                   title =response_title,
+
+            return render_template('findSimilar.html',
                                    emp_name=response_emp_name) + get_emp_SN +'<br><img src=' + file_url + ' width = "500" height= "500">'
 
 
@@ -143,19 +122,12 @@ def findSimilar_list():
 
 @app.route('/imageManage',methods=['GET','POST'])
 def VRmanage():
-    response_emp_name = session['login_name']
-    response_html = 'VRimageManage.html'
-    response_title = 'VisualRecognitionimageManage'
-    return render_template(response_html,
-                           title=response_title,
-                           emp_name = response_emp_name)
+    return render_template('VRimageManage.html')
 
 @app.route('/addImage',methods=['GET','POST'])
 def image_manage():
 
     if request.method=='POST':
-
-        response_emp_name = session['login_name']
         image_file = request.files['imagefile']
 
         collection_name= config.Image_collection_name_define
@@ -176,25 +148,16 @@ def image_manage():
                                                                           metadata=metadata_object)
             print(json.dumps(get_image_info,indent=2))
 
-            #return render_template('VRimageManage.html')
-            response_emp_name = session['login_name']
-            response_html = 'VRimageManage.html'
-            response_title = 'VisualRecognitionimageManage'
-            return render_template(response_html,
-                                   title=response_title,
-                                   emp_name=response_emp_name)
+            return render_template('VRimageManage.html')
 
     #render_template('VRimageManage.html')
 
 
-@app.route('/documentConvertion')
+@app.route('/documentConvertion',methods=['GET'])
 def documentConvertion():
-    response_emp_name = session['login_name']
-    response_html = 'fileconvert.html'
-    response_title = 'DocumentConvertion'
-    return render_template(response_html,
-                           title = response_title,
-                           emp_name=response_emp_name)
+    if request.method == 'GET':
+        response_emp_name=request.args.get('emp_name')
+        return render_template('fileconvert.html')
 
 @app.route('/fileconvert',methods=['GET','POST'])
 def doFileConvert():

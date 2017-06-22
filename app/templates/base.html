@@ -85,7 +85,7 @@
     <div class="header">
         <h1>Watson and Python Cognitive Service</h1>
 
-        <p>{{ emp_name }} Let's go!! </p>
+        <p>{{ emp_name }} ..Let's go!! </p>
     </div>
     <div class="main-content">
         <h2>Main Content</h2>
@@ -97,8 +97,9 @@
     <div class="aside sidebar">
         <h2>MenuList</h2>
             <div><a href="#">&nbsp;DataCollect</a></div>
-            <div><a href="/documentConvertion?emp_name={{ emp_name }}" methods="GET">&nbsp;DocumentConvertion</a></div>
-            <div><a href="main/find?emp_name={{ emp_name }}" methods="GET" >&nbsp;VisualRecognition</a></div>
+            <div><a href="/documentConvertion">&nbsp;DocumentConvertion</a></div>
+            <!--div><a href="main/find?emp_name={{ emp_name }}" methods="GET" >&nbsp;VisualRecognition</a></div-->
+            <div><a href="/findsimilar" >&nbsp;VisualRecognition</a></div>
             <div><a href="#">&nbsp;SpeechToText</a></div>
             <div><a href="#">&nbsp;TextToSpeech</a></div>
     </div>
