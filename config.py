@@ -23,7 +23,7 @@ Image_collection_name_define ='emp_collection'
 #MongoDB 定义 filed_name
 def collection_field_define():
     emp_collection_def={'emp_name':'',
-                        'emp_SN':'',
+                        'emp_SN':'000000',
                         'emp_mail':'',
                         'emp_role':'',
                         'emp_project':'',
@@ -31,29 +31,31 @@ def collection_field_define():
                         'emp_onboard_date':'',
                         'emp_IBM joinDate':'',
                         'emp_Phone':'',
-                        'emp_Skill':'',
-                        'emp_Language':'',
+                        'emp_Skill':[''],
+                        'emp_Language':[''],
                         'emp_Band':'',
-                        'emp_Photo':[{'photo':'',
+                        'emp_Photo':[{'photo_title':'',
+                                      'photo':'',
                                       'photo_creattime':'',
                                       'group_flag':''}],
-                        'emp_video':[{'media':'',
+                        'emp_video':[{'media_title':'',
+                                      'media':'',
                                       'media_creattime':''}],
-                        'emp_audio':[{'audio':'',
+                        'emp_audio':[{'audio_title':'',
+                                      'audio':'',
                                       'audio_creattime':''}]}
 
     #设定索引，升序，定义主键为emp_SN
     emp_collection_def.ensureIndex({'emp_SN':1},{'unique':True})
 
-app_login_cer=[{'login_name':'lixiaoliang','login_password':'lxl'},
+app_login_cer=[{'login_name':'lixiaoliang','login_password':''},
                {'login_name':'zhanghan','login_password':'zh'},
                {'login_name': 'huangsha', 'login_password': 'hs'},
                {'login_name': 'lihui', 'login_password': 'lh'},
                {'login_name': 'lihongquan', 'login_password': 'lhq'},
                {'login_name': 'xuxiaochuan', 'login_password': 'xxc'},
                {'login_name': 'xiaojinpeng', 'login_password': 'xjp'},
-               {'login_name': 'weizhenyuan', 'login_password': 'wzy'}]
+               {'login_name': 'weizhenyuan', 'login_password': 'wzy'},
+               {'login_name': 'test', 'login_password': 'test'}]
 
-#app_login_cer={login_name:login_password}
-#app_login_cer={'lixiaoliang':'lxl',
-#               'zhanghan':'zh'}
+

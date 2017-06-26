@@ -1,5 +1,5 @@
 from watson_developer_cloud import VisualRecognitionV3,DocumentConversionV1
-
+import json
 #Watson Api's info:
 #url": "https://gateway-a.watsonplatform.net/visual-recognition/api",
 #note": "It may take up to 5 minutes for this key to become active",
@@ -21,7 +21,7 @@ class WatsonVisualRecognition:
     def creatClassifiar(self,positive_example_file,negative_example_file = None):
         classifiar_name = '!@#$%~^&**()'
 
-        #Learning:向emp_info的classifiar 里读入正反向数据文件
+        #Learning:classifiar 里读入正反向数据文件
         if negative_example_file == None:
             with open(positive_example_file,'rb') as positive_examples:
                 response = self.visual_Recognition.create_classifier(name=classifiar_name,
@@ -106,3 +106,6 @@ class WatsonDocumentConversion:
             print(response)
 
         return response
+
+#print (json.dumps(WatsonVisualRecognition().classifyImage("/Users/xiaolli/WorkSpace/WPC_Demo/tmp/uploadfiles/WechatIMG24.jpeg"),indent=2))
+#print (json.dumps(WatsonVisualRecognition().detectFace("/Users/xiaolli/WorkSpace/WPC_Demo/tmp/uploadfiles/WechatIMG24.jpeg"),indent=2))
