@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% block content %}
+    <h2>{{ word }}</h2>
+    <form method="POST" action="/doDatacollecte">
+        <div>
+            EMP_SN:&nbsp;&nbsp; {{ empform.emp_SN(size=20) }}&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+            EMP_NAME: {{ empform.emp_name(size=20) }}
+        </div>
+        <div>
+            Onboard Date:  {{ empform.emp_onboard_date(size=20) }}
+        </div>
+        <div>
+            SKILL: {{ empform.emp_Skill }}
+        </div>
+        <div>
+            <br>
+        </div>
+        <div>
+            Photo_Title:  {{ empform.emp_photo_title(size=20) }}
+        </div>
+        <div>
+            Photo: {{ empform.emp_photo_image(size=20) }}
+        </div>
+        <div>
+            Photo_CreatDate:  {{ empform.emp_photo_creatdate(size=20) }}
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            Photo_Group_Flag: {{ empform.emp_photo_flag(size=20) }}
+        </div>
+        <div>
+            {{ empform.submit }}
+            <input type="reset" name="reset">
+        </div>
+    </form>
+    {{ word_end }}
+{% endblock %}
