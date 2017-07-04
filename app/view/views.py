@@ -203,6 +203,7 @@ def image_manage():
 ####插入数据到MongoDB
 @app.route('/doDatacollecte',methods=['GET','POST'])
 def doDatacollecte():
+    response_emp_name = session['login_name']
     #FLASK-WTF的表单应用
     empform = collectForm()
 
@@ -220,13 +221,16 @@ def doDatacollecte():
         #DB插入
         add_object_info(insert_object_info)
 
-        response_emp_name = session['login_name']
+        #response_emp_name = session['login_name']
+        response_word = 'Add data is successful!!!'
         response_html = 'datacollecte.html'
         response_title = 'Data Collection'
         return render_template(response_html,
                                title=response_title,
                                emp_name=response_emp_name,
-                               empform=empform)
+                               empform=empform,
+                               response_word=response_word)
 
     return render_template('datacollecte.html',
-                           empform=empform)
+                           empform=empform,
+                           emp_name=response_emp_name)

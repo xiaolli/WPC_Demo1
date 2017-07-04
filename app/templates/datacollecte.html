@@ -11,5 +11,10 @@
 
         </div>
     </form>
+    <div>
+        {% if response_word %}
+             {{ response_word }}
+        {% endif %}
+    </div>
     {{ word_end }}
 {% endblock %}
