@@ -7,6 +7,7 @@ from  app.controller.forms import loginForm,collectForm
 from app.controller.WatsonDevCloud import WatsonVisualRecognition,WatsonDocumentConversion
 from app.controller.doMongoDB import add_object_info,find_object_info,update_object_info,update_object_info_push
 
+
 #设定配置
 app.config['UPLOAD_FOLDER'] = config.UPLOAD_FOLDER
 app.config['DOWNLOAD_FOLDER'] = config.DOWNLOAD_FOLDER
@@ -215,14 +216,18 @@ def doDatacollecte():
 
         img_filename =None
 
-        #作为插入DB的对内容
-        insert_object_info = {"userSN":emp_SN,"userNAME":emp_name}
 
-        #DB插入
-        add_object_info(insert_object_info)
+        if emp_SN.replace(' ','') == '' or emp_name.replace(' ','') == '':
+            response_word = 'Input data is incorrect,try again!!!'
+        else:
+            #作为插入DB的对内容
+            insert_object_info = {"userSN":emp_SN,"userNAME":emp_name}
 
-        #response_emp_name = session['login_name']
-        response_word = 'Add data is successful!!!'
+            #DB插入
+            add_object_info(insert_object_info)
+
+            #response_emp_name = session['login_name']
+            response_word = 'Add data is successful!!!'
         response_html = 'datacollecte.html'
         response_title = 'Data Collection'
         return render_template(response_html,
