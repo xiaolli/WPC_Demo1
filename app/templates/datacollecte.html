@@ -2,6 +2,7 @@
 {% block content %}
     <h2>{{ word }}</h2>
     <form method="POST" action="/doDatacollecte">
+    {{ empform.csrf_token }}
         <div>
             EMP_SN:&nbsp;&nbsp; {{ empform.emp_SN(size=20) }}&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
             EMP_NAME: {{ empform.emp_name(size=20) }}

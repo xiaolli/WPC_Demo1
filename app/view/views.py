@@ -207,8 +207,9 @@ def doDatacollecte():
     response_emp_name = session['login_name']
     #FLASK-WTF的表单应用
     empform = collectForm()
-
-    if request.method == 'POST':
+    print(empform.validate_on_submit())
+    #if request.method == 'POST':
+    if empform.validate_on_submit():
 
         #从HTML上取得SN和file的信息，准备插入到DB
         emp_SN=empform.emp_SN.data
